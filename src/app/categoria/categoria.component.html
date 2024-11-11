@@ -1,0 +1,54 @@
+<div class="categories-container">
+  <div *ngIf="mensagem" class="mensagem">{{ mensagem }}</div>
+  <h2>Gestão de Categorias</h2>
+  <button (click)="addCategoria()">Adicionar Categoria</button>
+
+  <table class="categories-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let categoria of categorias">
+        <td>
+          <span *ngIf="!categoria.isEditing">{{ categoria.id }}</span>
+          <input *ngIf="categoria.isEditing" [(ngModel)]="categoria.id" readonly class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!categoria.isEditing">{{ categoria.nome }}</span>
+          <input *ngIf="categoria.isEditing" [(ngModel)]="categoria.nome" placeholder="Nome" class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!categoria.isEditing">{{ categoria.descricao }}</span>
+          <input *ngIf="categoria.isEditing" [(ngModel)]="categoria.descricao" placeholder="Descrição" class="input-field" />
+        </td>
+        <td class="action-buttons">
+          <button *ngIf="!categoria.isEditing" (click)="editCategoria(categoria)">Editar</button>
+          <button *ngIf="categoria.isEditing" (click)="saveEdit(categoria)">Salvar</button>
+          <button *ngIf="categoria.isEditing" (click)="cancelEdit(categoria)">Cancelar</button>
+          <button (click)="deleteCategoria(categoria.id)">Excluir</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="isAddingNew">
+        <td>
+          <input [(ngModel)]="newCategoria.id" readonly class="input-field" />
+        </td>
+        <td>
+          <input [(ngModel)]="newCategoria.nome" placeholder="Nome" class="input-field" />
+        </td>
+        <td>
+          <input [(ngModel)]="newCategoria.descricao" placeholder="Descrição" class="input-field" />
+        </td>
+        <td class="action-buttons">
+          <button (click)="saveCategoria()">Salvar</button>
+          <button (click)="cancelAdd()">Cancelar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

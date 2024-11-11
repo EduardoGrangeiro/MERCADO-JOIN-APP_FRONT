@@ -1,0 +1,83 @@
+<div class="products-container">
+  <div *ngIf="mensagem" class="mensagem">{{ mensagem }}</div>
+  <h2>Gestão de Produtos</h2>
+
+  <button (click)="addProduto()">Adicionar Produto</button>
+
+  <table class="products-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produto of produtos">
+        <td>
+          <span *ngIf="!produto.isEditing">{{ produto.id }}</span>
+          <input *ngIf="produto.isEditing" [(ngModel)]="produto.id" [readonly]="true" class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!produto.isEditing">{{ produto.nome }}</span>
+          <input *ngIf="produto.isEditing" [(ngModel)]="produto.nome" placeholder="Nome" class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!produto.isEditing">{{ produto.valor }}</span>
+          <input *ngIf="produto.isEditing" [(ngModel)]="produto.valor" placeholder="Preço" type="number" class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!produto.isEditing">{{ produto.quantidade }}</span>
+          <input *ngIf="produto.isEditing" [(ngModel)]="produto.quantidade" placeholder="Quantidade" type="number" class="input-field" />
+        </td>
+        <td>
+          <span *ngIf="!produto.isEditing">{{ produto.categoria?.nome }}</span>
+          <select *ngIf="produto.isEditing" [(ngModel)]="produto.categoria.id" class="input-field">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nome }}
+            </option>
+          </select>
+        </td>
+
+        <td class="action-buttons">
+          <button *ngIf="!produto.isEditing" (click)="editProduto(produto)">Editar</button>
+
+          <button *ngIf="produto.isEditing" (click)="saveEdit(produto)">Salvar</button>
+          <button *ngIf="produto.isEditing" (click)="cancelEdit(produto)">Cancelar</button>
+
+          <button (click)="deleteProduto(produto.id)">Excluir</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="isAddingNew">
+        <td>
+          <input [(ngModel)]="newProduto.id" [readonly]="true" placeholder="ID" class="input-field" />
+        </td>
+        <td>
+          <input [(ngModel)]="newProduto.nome" placeholder="Nome" class="input-field" />
+        </td>
+        <td>
+          <input [(ngModel)]="newProduto.valor" placeholder="Preço" type="number" class="input-field" />
+        </td>
+        <td>
+          <input [(ngModel)]="newProduto.quantidade" placeholder="Quantidade" type="number" class="input-field" />
+        </td>
+        <td>
+          <select [(ngModel)]="newProduto.categoria" class="input-field">
+            <option value="" disabled selected>Selecione a categoria</option>
+            <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nome }}</option>
+          </select>
+        </td>
+
+
+        <td class="action-buttons">
+          <button (click)="saveProduto()">Salvar</button>
+          <button (click)="cancelAdd()">Cancelar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
